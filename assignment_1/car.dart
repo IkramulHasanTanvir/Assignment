@@ -6,15 +6,11 @@ class Car {
   static int numberOfCars = 0; //properties
 
   Car({
-    required String brand,
-    required String model,
-    required int year,
-    double milesDrive = 0,
+    required this.brand,
+    required this.model,
+    required this.year,
+    this.milesDrive = 0,
   }) {
-    this.brand = brand;
-    this.model = model;
-    this.year = year;
-    this.milesDrive = milesDrive;
     numberOfCars++;
   } //constructor
 
