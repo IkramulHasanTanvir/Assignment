@@ -1,51 +1,42 @@
+import 'dart:core';
 class Car {
-  late String brand;
-  late String model;
-  late int year;
-  late double milesDrive;
-  static int numberOfCars = 0; //properties
+  String brand;
+  String model;
+  int year;
+  double milesDriven;
+
+  static int numberOfCars = 0;
 
   Car({
     required this.brand,
     required this.model,
     required this.year,
-    this.milesDrive = 0,
+    required this.milesDriven,
   }) {
     numberOfCars++;
-  } //constructor
+  }
 
   void drive(double miles) {
-    this.milesDrive = miles;
-    _getBrand();
-    _getModel();
-    _getYear();
-    _getAge();
-    _getMilesDrive();
-  } //method
+    milesDriven += miles;
+  }
 
-  double _getMilesDrive() {
-    print('Miles Driven : $milesDrive \n');
-    return milesDrive;
-  } //method
+  double getMilesDriven() {
+    return milesDriven;
+  }
 
-  String _getBrand() {
-    print('Brand : $brand');
+  String getBrand() {
     return brand;
-  } //method
+  }
 
-  String _getModel() {
-    print('Model : $model');
+  String getModel() {
     return model;
-  } //method
+  }
 
-  int _getYear() {
-    print('Year : $year');
+  int getYear() {
     return year;
-  } //method
+  }
 
-  int _getAge() {
-    int currentYear = 2024 - year;
-    print('using age : $currentYear');
-    return currentYear;
-  } //method
-} //class
+  int getAge() {
+    return DateTime.now().year - year;
+  }
+}
