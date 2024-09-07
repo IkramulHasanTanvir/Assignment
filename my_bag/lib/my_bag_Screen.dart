@@ -55,41 +55,12 @@ class _MyBagScreenState extends State<MyBagScreen> {
         child: Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                  itemCount: bagItems.length,
-                  itemBuilder: (context, index) {
-                    return BagCard(
-                        item: bagItems[index],
-                        onQuantityChanged: (newQuantity) {
-                          bagItems[index].quantity = newQuantity;
-                          setState(() {});
-                        });
-                  }),
+              child: _buildBagItemsListView(),
             ),
             Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Total amount:',
-                      style: TextStyle(color: Colors.grey.shade600),
-                    ),
-                    Text(
-                      '${calculateTotal()}\$',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  ],
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.grey.shade200,
-                    minimumSize: const Size(double.infinity, 56),
-                  ),
-                  child: const Text('CHECK OUT'),
-                ),
+                _buildTotalAmount(context),
+                _buildCheckOutButton(),
                 const SizedBox(height: 32),
               ],
             ),
@@ -97,5 +68,46 @@ class _MyBagScreenState extends State<MyBagScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildTotalAmount(BuildContext context) {
+    return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Total amount:',
+                    style: TextStyle(color: Colors.grey.shade600),
+                  ),
+                  Text(
+                    '${calculateTotal()}\$',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              );
+  }
+
+  Widget _buildCheckOutButton() {
+    return ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.grey.shade200,
+                  minimumSize: const Size(double.infinity, 56),
+                ),
+                child: const Text('CHECK OUT'),
+              );
+  }
+
+  Widget _buildBagItemsListView() {
+    return ListView.builder(
+                itemCount: bagItems.length,
+                itemBuilder: (context, index) {
+                  return BagCard(
+                      item: bagItems[index],
+                      onQuantityChanged: (newQuantity) {
+                        bagItems[index].quantity = newQuantity;
+                        setState(() {});
+                      });
+                });
   }
 }
