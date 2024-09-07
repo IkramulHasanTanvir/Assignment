@@ -59,7 +59,6 @@ class BagCard extends StatelessWidget {
                       ],
                     ),
                     Row(
-                      //mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         IconButton(
                           onPressed: () {
