@@ -1,16 +1,4 @@
-# my_bag
+# MY BAG assignment of module - 13
 
-A new Flutter project.
+[![](https://cdn.dribbble.com/userupload/16458372/file/original-af3dc54d81725b70d711e027f20832e8.png?resize=1024x576)]()
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
