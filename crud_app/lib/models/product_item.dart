@@ -1,11 +1,16 @@
 import 'package:crud_app/models/product.dart';
+import 'package:crud_app/screens/product_list_screen.dart';
 import 'package:crud_app/screens/update_product_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({super.key, required this.product});
+  const ProductItem(
+      {super.key,
+      required this.product,
+      required this.onDelete});
 
   final Product product;
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -32,27 +37,29 @@ class ProductItem extends StatelessWidget {
 
   Widget _buildUpdateButtonBar(BuildContext context) {
     return Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) {
-                      return const UpdateProductScreen();
-                    }),
-                  );
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        TextButton.icon(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return const UpdateProductScreen(item: ProductListScreen(),);
                 },
-                label: const Text('Edit'),
-                icon: const Icon(Icons.edit),
               ),
-              TextButton.icon(
-                style: TextButton.styleFrom(foregroundColor: Colors.red),
-                onPressed: () {},
-                label: const Text('Delete'),
-                icon: const Icon(Icons.delete_outline),
-              ),
-            ],
-          );
+            );
+          },
+          label: const Text('Edit'),
+          icon: const Icon(Icons.edit),
+        ),
+        TextButton.icon(
+          style: TextButton.styleFrom(foregroundColor: Colors.red),
+          onPressed: onDelete,
+          label: const Text('Delete'),
+          icon: const Icon(Icons.delete_outline),
+        ),
+      ],
+    );
   }
 }

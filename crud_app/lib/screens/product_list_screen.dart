@@ -42,7 +42,12 @@ class _ProductListScreenState extends State<ProductListScreen> {
           : ListView.builder(
               itemCount: productList.length,
               itemBuilder: (context, index) {
-                return ProductItem(product: productList[index]);
+                return ProductItem(
+                  product: productList[index],
+                  onDelete: () {
+                    deleteProduct(productList[index].productId);
+                  },
+                );
               }),
     );
   }
@@ -72,5 +77,19 @@ class _ProductListScreenState extends State<ProductListScreen> {
     }
     _inProgress = false;
     setState(() {});
+  }
+
+  Future<void> deleteProduct(String productId) async {
+    Uri uri = Uri.parse(
+        'http://164.68.107.70:6060/api/v1/DeleteProduct/639da5960817590a4e4fd53c');
+    Response response = await delete(uri);
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+      if (jsonResponse['data']['acknowledged'] == true &&
+          jsonResponse['data']['deletedCount'] > 0) {
+        productList.removeWhere((product) => product.productId == productId);
+        setState(() {});
+      }
+    }
   }
 }
