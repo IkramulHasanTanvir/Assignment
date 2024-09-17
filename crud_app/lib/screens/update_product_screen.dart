@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:crud_app/screens/product_list_screen.dart';
-import 'package:crud_app/screens/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
@@ -157,15 +156,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
         int matchedCount = data['matchedCount'] ?? 0;
       }
     }
-    _inProgress = false;
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) {
-        return const Screen();
-      }),
-    );
-    setState(() {});
-  }
+}
 
   void _clearTextFields() {
     _productNameTEController.clear();

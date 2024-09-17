@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:crud_app/models/product.dart';
 import 'package:crud_app/models/product_item.dart';
+import 'package:crud_app/screens/add_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
@@ -35,6 +36,18 @@ class _ProductListScreenState extends State<ProductListScreen> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.grey.shade300,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return const AddProductScreen();
+            }),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
       body: _inProgress
           ? const Center(
               child: CircularProgressIndicator(),
@@ -45,7 +58,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 return ProductItem(
                   product: productList[index],
                   onDelete: () {
-                    deleteProduct(productList[index].productId);
+                    productList.removeAt(index);
+                    setState(() {});
                   },
                 );
               }),

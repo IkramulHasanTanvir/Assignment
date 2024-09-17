@@ -1,4 +1,4 @@
-import 'package:crud_app/screens/screen.dart';
+import 'package:crud_app/screens/product_list_screen.dart';
 import 'package:flutter/material.dart';
 
 class CrudApp extends StatelessWidget {
@@ -8,7 +8,7 @@ class CrudApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const Screen(),
+      home: const ProductListScreen(),
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.grey.shade300,
         appBarTheme: AppBarTheme(
