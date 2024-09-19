@@ -19,7 +19,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   @override
   void initState() {
     super.initState();
-    getProductList();
+    _getProductList();
   }
 
   @override
@@ -30,7 +30,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              getProductList();
+              _getProductList();
             },
             icon: const Icon(Icons.refresh_outlined),
           ),
@@ -57,16 +57,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
               itemBuilder: (context, index) {
                 return ProductItem(
                   product: productList[index],
-                  onDelete: () {
-                    productList.removeAt(index);
-                    setState(() {});
-                  },
+                  onTapDelete: () => _deleteProduct(productList[index].productId,context),
                 );
               }),
     );
   }
 
-  Future<void> getProductList() async {
+  Future<void> _getProductList() async {
     _inProgress = true;
     setState(() {});
     Uri uri = Uri.parse('http://164.68.107.70:6060/api/v1/ReadProduct');
@@ -93,17 +90,17 @@ class _ProductListScreenState extends State<ProductListScreen> {
     setState(() {});
   }
 
-  Future<void> deleteProduct(String productId) async {
+  Future<void> _deleteProduct(String productId, context) async {
     Uri uri = Uri.parse(
-        'http://164.68.107.70:6060/api/v1/DeleteProduct/639da5960817590a4e4fd53c');
-    Response response = await delete(uri);
+        'http://164.68.107.70:6060/api/v1/DeleteProduct/$productId');
+    Response response = await get(uri);
     if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body);
-      if (jsonResponse['data']['acknowledged'] == true &&
-          jsonResponse['data']['deletedCount'] > 0) {
-        productList.removeWhere((product) => product.productId == productId);
-        setState(() {});
-      }
+      _getProductList();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('deleted'),
+        ),
+      );
     }
   }
 }

@@ -1,27 +1,39 @@
 import 'dart:convert';
-import 'package:crud_app/screens/product_list_screen.dart';
+import 'package:crud_app/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 class UpdateProductScreen extends StatefulWidget {
-  const UpdateProductScreen({super.key, required this.item});
+  const UpdateProductScreen({super.key, required this.product});
 
-  final ProductListScreen item;
+  final Product product;
 
   @override
   State<UpdateProductScreen> createState() => _UpdateProductScreenState();
 }
 
 class _UpdateProductScreenState extends State<UpdateProductScreen> {
-  final TextEditingController _productNameTEController =
-  TextEditingController();
-  final TextEditingController _codeTEController = TextEditingController();
-  final TextEditingController _imageTEController = TextEditingController();
-  final TextEditingController _unitPriceTEController = TextEditingController();
-  final TextEditingController _quantityTEController = TextEditingController();
-  final TextEditingController _totalPriceTEController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  late TextEditingController _productNameTEController = TextEditingController();
+  late TextEditingController _codeTEController = TextEditingController();
+  late TextEditingController _imageTEController = TextEditingController();
+  late TextEditingController _unitPriceTEController = TextEditingController();
+  late TextEditingController _quantityTEController = TextEditingController();
+  late TextEditingController _totalPriceTEController = TextEditingController();
+  late final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _inProgress = false;
+  late Product product;
+
+  @override
+  void initState() {
+    product = widget.product;
+    _productNameTEController = TextEditingController(text: product.productName);
+    _codeTEController = TextEditingController(text: product.productCode);
+    _imageTEController = TextEditingController(text: product.productImage);
+    _unitPriceTEController = TextEditingController(text: product.unitPrice);
+    _quantityTEController = TextEditingController(text: product.quantity);
+    _totalPriceTEController = TextEditingController(text: product.totalPrice);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,23 +118,23 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
           const SizedBox(height: 24),
           _inProgress
               ? const Center(
-            child: CircularProgressIndicator(),
-          )
+                  child: CircularProgressIndicator(),
+                )
               : ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.grey.shade700,
-              foregroundColor: Colors.grey.shade200,
-              fixedSize: const Size.fromWidth(double.maxFinite),
-            ),
-            onPressed: _onTapUpdateProductButton,
-            child: const Text('Update Product'),
-          ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey.shade700,
+                    foregroundColor: Colors.grey.shade200,
+                    fixedSize: const Size.fromWidth(double.maxFinite),
+                  ),
+                  onPressed: _onTapUpdateButton,
+                  child: const Text('Update Product'),
+                ),
         ],
       ),
     );
   }
 
-  void _onTapUpdateProductButton() {
+  void _onTapUpdateButton() {
     if (_formKey.currentState!.validate()) {
       updateProduct();
     }
@@ -131,7 +143,8 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
   Future<void> updateProduct() async {
     _inProgress = true;
     setState(() {});
-    Uri uri = Uri.parse('http://164.68.107.70:6060/api/v1/CreateProduct');
+    Uri uri = Uri.parse(
+        'http://164.68.107.70:6060/api/v1/UpdateProduct/${product.productId}');
     Map<String, dynamic> requestBody = {
       "Img": _imageTEController.text,
       "ProductCode": _codeTEController.text,
@@ -147,16 +160,15 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
     );
 
     if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body);
-      if(jsonResponse['status'] == 'success'){
-        var data = jsonResponse['data'];
-        bool acknowledged = data['acknowledged'] ?? false;
-        int modifiedCount = data['modifiedCount'] ?? 0;
-        int upsertedCount = data['upsertedCount'] ?? 0;
-        int matchedCount = data['matchedCount'] ?? 0;
-      }
+      _clearTextFields;
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Product Updated'),
+        ),
+      );
     }
-}
+  }
 
   void _clearTextFields() {
     _productNameTEController.clear();

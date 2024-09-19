@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:crud_app/screens/product_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
@@ -123,9 +122,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   void _onTapAddProductButton() {
     if (_formKey.currentState!.validate()) {
       addNewProduct();
-      Navigator.push(context, MaterialPageRoute(builder: (context){
-        return const ProductListScreen();
-      }));
+      Navigator.pop(context);
     }
   }
 
